@@ -1,0 +1,84 @@
+
+public class Arithmetic {
+	private static void arithmetic(char[] inputStr,long length,char[] outputStr){
+		int num1=0;
+		int num2=0;
+		boolean first=true;
+		boolean oper=false;
+		boolean zero=false;
+		int once=0;
+		
+		for(int i=0;i<length;i++){
+			if(inputStr[i]==' '){
+				continue;				
+			}
+			if(inputStr[i]>='0'&&inputStr[i]<='9'){
+				if(first){
+					num1=num1*10+inputStr[i]-'0';
+					
+				}else{
+					num2=num2*10+inputStr[i]-'0';
+				}
+			}else{
+				
+				if(once==0){
+					if(inputStr[i]=='-'){
+						oper=false;
+						once=1;
+					}else{
+						oper=true;
+						once=1;
+					}
+					first=false;
+				}else{
+					zero=true;
+					break;
+				}				
+			}
+		}
+		
+		if(zero){
+			outputStr[0]='0';			
+		}else{
+			int sum=0;
+			if(oper){
+				sum=num1+num2;
+			}else{
+				sum=num1-num2;
+			}
+			int i=0;
+			if(sum<0){
+				outputStr[i++]='-';
+				sum=0-sum;
+			}
+			
+			if(sum>=0&&sum<=9){
+				outputStr[i++]=(char)(sum+'0');
+			}else if(sum>9&&sum<=99){
+				int tmp=sum/10;
+				outputStr[i++]=(char)(tmp+'0');
+				sum=sum%10;
+				outputStr[i++]=(char)(sum+'0');
+			}else if(sum>99){
+				int tmp=sum/100;
+				outputStr[i++]=(char)(tmp+'0');
+				sum=sum%100;
+				tmp=sum/10;
+				outputStr[i++]=(char)(tmp+'0');
+				sum=sum%10;
+				outputStr[i++]=(char)(sum+'0');				
+			}	
+			
+		}
+	}
+	
+	public static void main(String[] args){
+		char[] inputStr=new char[]{'4','5','+',' ','7','2'};
+		long n=inputStr.length;
+		char[] outputStr=new char[(int)n];
+		arithmetic(inputStr,n,outputStr);
+		for(int i=0;i<outputStr.length;i++){
+			System.out.print(outputStr[i]);
+		}
+	}
+}
